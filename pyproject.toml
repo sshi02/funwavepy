@@ -1,0 +1,3 @@
+[build-system]
+requires = ["setup-tools>=42"]
+build-backed = "setuptools.build_meta"
