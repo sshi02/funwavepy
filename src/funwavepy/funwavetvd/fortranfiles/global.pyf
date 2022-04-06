@@ -1,0 +1,383 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module global ! in 
+    interface  ! in :global
+        module global ! in :global:mod_global.F
+            use param
+            integer :: myid
+            integer :: ier
+            integer :: comm2d
+            integer :: n_west
+            integer :: n_east
+            integer :: n_suth
+            integer :: n_nrth
+            integer :: npx
+            integer :: npy
+            integer, optional :: ndims=2
+            integer :: numberprocessor
+            integer, allocatable,dimension(:,:) :: processorid
+            integer dimension(2) :: dims
+            integer dimension(2) :: coords
+            logical dimension(2) :: periods
+            logical, optional :: reorder=.true.
+            integer :: nprocs
+            integer :: iista
+            integer :: iiend
+            integer :: jjsta
+            integer :: jjend
+            integer :: px
+            integer :: py
+            integer :: numberstations
+            integer, allocatable,dimension(:) :: ista
+            integer, allocatable,dimension(:) :: jsta
+            integer, allocatable,dimension(:) :: nsta
+            real(kind=sp) :: plot_intv_station
+            real(kind=sp) :: plot_count_station
+            integer :: stationoutputbuffer
+            real(kind=sp) :: tbegin
+            real(kind=sp) :: tend
+            integer :: istage
+            integer, optional :: filter_count=0
+            integer, optional :: filter_interval=1
+            character(len=80) :: input_file_name
+            character(len=80) :: title
+            character(len=80) :: readtype
+            character(len=80) :: depth_type
+            character(len=80) :: depth_file
+            character(len=80) :: eta_file
+            character(len=80) :: u_file
+            character(len=80) :: v_file
+            character(len=80) :: mask_file
+            character(len=80) :: dx_file
+            character(len=80) :: dy_file
+            character(len=80) :: coriolis_file
+            character(len=80) :: obstacle_file
+            character(len=80) :: breakwater_file
+            character(len=80) :: result_folder
+            character(len=80) :: stations_file
+            character(len=80) :: wavemaker
+            character(len=80) :: time_scheme
+            character(len=80) :: constr
+            character(len=80) :: high_order
+            character(len=80) :: field_io_type
+            real(kind=sp) :: hotstarttime
+            logical, optional :: no_mask_file=.true.
+            logical, optional :: no_uv_file=.true.
+            character(len=16), optional :: format_len=' '
+            real(kind=sp), parameter,optional,dimension(3) :: alpha=(/0.0_sp,3.0_sp/4.0_sp,1.0_sp/3.0_sp/)
+            real(kind=sp), parameter,optional,dimension(3) :: beta=(/1.0_sp,1.0_sp/4.0_sp,2.0_sp/3.0_sp/)
+            real(kind=sp) :: kappa
+            integer :: mglob
+            integer :: nglob
+            integer :: mloc
+            integer :: nloc
+            integer :: mloc1
+            integer :: nloc1
+            integer, parameter,optional :: nghost=3
+            integer :: ibeg
+            integer :: iend
+            integer :: jbeg
+            integer :: jend
+            integer :: iend1
+            integer :: jend1
+            real(kind=sp) :: dx
+            real(kind=sp) :: dy
+            real(kind=sp) :: lon_west
+            real(kind=sp) :: lat_south
+            real(kind=sp) :: dphi
+            real(kind=sp) :: dtheta
+            real(kind=sp) :: dt
+            real(kind=sp) :: time
+            real(kind=sp) :: total_time
+            real(kind=sp) :: plot_intv
+            real(kind=sp) :: plot_count
+            real(kind=sp) :: screen_intv
+            real(kind=sp) :: screen_count
+            real(kind=sp) :: dt_fixed
+            real(kind=sp) :: plot_start_time
+            real(kind=sp) :: hotstart_intv
+            real(kind=sp) :: hotstart_count
+            integer, optional :: icount=-1
+            integer, optional :: icount_mean=0
+            integer, optional :: icount_hotstart=0
+            integer :: filenumber_hotstart
+            real(kind=sp), optional :: mindepth=0.001
+            real(kind=sp), optional :: mindepthfrc=0.5
+            real(kind=sp), optional :: arrtimemin=0.001
+            real(kind=sp), optional :: cfl=0.15_sp
+            real(kind=sp), optional :: froudecap=10.0_sp
+            real(kind=sp), optional :: swe_eta_dep=0.7_sp
+            logical, optional :: bathy_correction=.false.
+            logical, optional :: breakwater=.false.
+            real(kind=sp), allocatable,dimension(:,:) :: breakwaterwidth
+            real(kind=sp), allocatable,dimension(:,:) :: cd_breakwater
+            real(kind=sp) :: breakwaterabsorbcoef
+            real(kind=sp), allocatable,dimension(:) :: xco
+            real(kind=sp), allocatable,dimension(:) :: yco
+            real(kind=sp) :: gamma1
+            real(kind=sp) :: gamma2
+            real(kind=sp) :: gamma3
+            real(kind=sp), optional :: beta_ref=-0.531_sp
+            real(kind=sp) :: beta_1
+            real(kind=sp) :: beta_2
+            real(kind=sp) :: a1
+            real(kind=sp) :: a2
+            real(kind=sp) :: b1
+            real(kind=sp) :: b2
+            logical, optional :: dispersion=.false.
+            logical, optional :: disp_time_left=.false.
+            logical, optional :: stretchgrid=.false.
+            logical, optional :: fixed_dt=.false.
+            real(kind=sp), allocatable,dimension(:,:) :: if_bn
+            real(kind=sp), allocatable,dimension(:,:) :: defined
+            real(kind=sp), allocatable,dimension(:,:) :: ui
+            real(kind=sp), allocatable,dimension(:,:) :: vi
+            real(kind=sp), allocatable,dimension(:,:) :: etai
+            real(kind=sp), allocatable,dimension(:,:) :: ubarold
+            real(kind=sp), allocatable,dimension(:,:) :: vbarold
+            real(kind=sp), allocatable,dimension(:,:) :: etaold
+            integer :: ki
+            logical, optional :: accurate=.false.
+            integer, allocatable,dimension(:,:) :: mask
+            integer, allocatable,dimension(:,:) :: mask_struc
+            integer, allocatable,dimension(:,:) :: mask9
+            real(kind=sp) :: dmass
+            real(kind=sp) :: wetarea
+            real(kind=sp) :: dweteta
+            real(kind=sp), allocatable,dimension(:,:) :: etascreen
+            logical, optional :: equalenergy=.false.
+            logical, optional :: wavemakercurrentbalance=.false.
+            real(kind=sp) :: wavemakercd
+            real(kind=sp) :: amp_soli
+            real(kind=sp) :: dep_soli
+            real(kind=sp) :: lag_soli
+            real(kind=sp) :: cph_soli
+            real(kind=sp) :: xwavemaker
+            real(kind=sp) :: xc
+            real(kind=sp) :: yc
+            real(kind=sp) :: wid
+            real(kind=sp) :: xc_wk
+            real(kind=sp) :: tperiod
+            real(kind=sp) :: amp_wk
+            real(kind=sp) :: dep_wk
+            real(kind=sp) :: theta_wk
+            real(kind=sp) :: rlamda
+            real(kind=sp) :: time_ramp
+            real(kind=sp) :: d_gen
+            real(kind=sp) :: beta_gen
+            real(kind=sp) :: width_wk
+            real(kind=sp) :: delta_wk
+            real(kind=sp) :: ywidth_wk
+            real(kind=sp) :: yc_wk
+            logical, optional :: solitarypositivedirection=.true.
+            real(kind=sp), allocatable,dimension(:,:) :: d_gen_ir
+            real(kind=sp), allocatable,dimension(:,:) :: rlamda_ir
+            real(kind=sp), allocatable,dimension(:,:) :: phase_ir
+            real(kind=sp), allocatable,dimension(:) :: beta_gen_ir
+            real(kind=sp), allocatable,dimension(:) :: omgn_ir
+            real(kind=sp), allocatable,dimension(:) :: omgn2d
+            real(kind=sp), allocatable,dimension(:,:) :: wavemaker_mass
+            real(kind=sp) :: freqmin
+            real(kind=sp) :: freqmax
+            real(kind=sp) :: freqpeak
+            real(kind=sp) :: gammatma
+            real(kind=sp) :: hmo
+            real(kind=sp) :: thetapeak
+            real(kind=sp) :: sigma_theta
+            real(kind=sp), allocatable,dimension(:,:,:) :: cm
+            real(kind=sp), allocatable,dimension(:,:,:) :: sm
+            integer :: nfreq
+            integer :: ntheta
+            real(kind=sp), optional :: x1_nwave=5.0
+            real(kind=sp), optional :: x2_nwave=5.0
+            real(kind=sp), optional :: a0_nwave=1.0
+            real(kind=sp), optional :: gamma_nwave=-3.0
+            real(kind=sp), optional :: dep_nwave=1.0
+            real(kind=sp), allocatable,dimension(:,:) :: wave_comp
+            real(kind=sp), allocatable,dimension(:) :: beta_gens
+            real(kind=sp), allocatable,dimension(:) :: d_gens
+            real(kind=sp), allocatable,dimension(:,:) :: beta_gen2d
+            real(kind=sp), allocatable,dimension(:,:) :: d_gen2d
+            real(kind=sp), allocatable,dimension(:,:) :: rlamda2d
+            real(kind=sp), allocatable,dimension(:,:) :: phase2d
+            real(kind=sp), allocatable,dimension(:) :: freq
+            real(kind=sp), allocatable,dimension(:) :: dire
+            real(kind=sp) :: peakperiod
+            integer :: numwavecomp
+            integer :: numfreq
+            integer :: numdir
+            character(len=80) :: wavecompfile
+            logical, optional :: in_cd=.false.
+            real(kind=sp) :: cd_fixed
+            character(len=80) :: cd_file
+            real(kind=sp), allocatable,dimension(:,:) :: cd
+            logical, optional :: roller=.false.
+            real(kind=sp) :: roller_switch
+            real(kind=sp), allocatable,dimension(:,:) :: sponge
+            real(kind=sp), allocatable,dimension(:,:) :: spongemaker
+            real(kind=sp) :: sponge_west_width
+            real(kind=sp) :: sponge_east_width
+            real(kind=sp) :: sponge_south_width
+            real(kind=sp) :: sponge_north_width
+            real(kind=sp) :: r_sponge
+            real(kind=sp) :: a_sponge
+            real(kind=sp), allocatable,dimension(:,:) :: umean
+            real(kind=sp), allocatable,dimension(:,:) :: vmean
+            real(kind=sp), allocatable,dimension(:,:) :: etamean
+            real(kind=sp), allocatable,dimension(:,:) :: usum
+            real(kind=sp), allocatable,dimension(:,:) :: vsum
+            real(kind=sp), allocatable,dimension(:,:) :: etasum
+            real(kind=sp), allocatable,dimension(:,:) :: nu_smg
+            real(kind=sp), optional :: t_intv_mean=20.0
+            real(kind=sp), optional :: t_sum=0.0
+            real(kind=sp), optional :: c_smg=0.25
+            real(kind=sp), allocatable,dimension(:,:) :: waveheightrms
+            real(kind=sp), allocatable,dimension(:,:) :: waveheightave
+            real(kind=sp), allocatable,dimension(:,:) :: emax
+            real(kind=sp), allocatable,dimension(:,:) :: emin
+            real(kind=sp), allocatable,dimension(:,:) :: hrmssum
+            real(kind=sp), allocatable,dimension(:,:) :: havgsum
+            integer, allocatable,dimension(:,:) :: num_zero_up
+            real(kind=sp), allocatable,dimension(:,:) :: eta2sum
+            real(kind=sp), allocatable,dimension(:,:) :: eta2mean
+            real(kind=sp), allocatable,dimension(:,:) :: sigwaveheight
+            real(kind=sp), allocatable,dimension(:,:) :: depth
+            real(kind=sp), allocatable,dimension(:,:) :: h
+            real(kind=sp), allocatable,dimension(:,:) :: depthnode
+            real(kind=sp), allocatable,dimension(:,:) :: depthx
+            real(kind=sp), allocatable,dimension(:,:) :: depthy
+            real(kind=sp) :: depth_flat
+            real(kind=sp) :: slp
+            real(kind=sp) :: xslp
+            real(kind=sp), allocatable,dimension(:,:) :: ubar0
+            real(kind=sp), allocatable,dimension(:,:) :: vbar0
+            real(kind=sp), allocatable,dimension(:,:) :: eta0
+            real(kind=sp), allocatable,dimension(:,:) :: ubar
+            real(kind=sp), allocatable,dimension(:,:) :: vbar
+            real(kind=sp), allocatable,dimension(:,:) :: eta
+            real(kind=sp), optional :: waterlevel=0.0
+            character(len=80) :: coupling_file
+            integer, optional :: icount_coupling=1
+            integer :: n_coupling_east
+            integer :: n_coupling_west
+            integer :: n_coupling_south
+            integer :: n_coupling_north
+            integer :: n_coupling_data
+            integer :: j_start_east
+            integer :: j_start_west
+            integer :: i_start_south
+            integer :: i_start_north
+            real(kind=sp), allocatable,dimension(:,:) :: u_coupling_east
+            real(kind=sp), allocatable,dimension(:,:) :: v_coupling_east
+            real(kind=sp), allocatable,dimension(:,:) :: z_coupling_east
+            real(kind=sp), allocatable,dimension(:,:) :: u_coupling_west
+            real(kind=sp), allocatable,dimension(:,:) :: v_coupling_west
+            real(kind=sp), allocatable,dimension(:,:) :: z_coupling_west
+            real(kind=sp), allocatable,dimension(:,:) :: u_coupling_south
+            real(kind=sp), allocatable,dimension(:,:) :: v_coupling_south
+            real(kind=sp), allocatable,dimension(:,:) :: z_coupling_south
+            real(kind=sp), allocatable,dimension(:,:) :: u_coupling_north
+            real(kind=sp), allocatable,dimension(:,:) :: v_coupling_north
+            real(kind=sp), allocatable,dimension(:,:) :: z_coupling_north
+            real(kind=sp) :: time_coupling_1
+            real(kind=sp) :: time_coupling_2
+            integer :: kstart_east
+            integer :: kend_east
+            integer :: kshift_east
+            integer :: kstart_west
+            integer :: kend_west
+            integer :: kshift_west
+            integer :: kstart_south
+            integer :: kend_south
+            integer :: kshift_south
+            integer :: kstart_north
+            integer :: kend_north
+            integer :: kshift_north
+            logical :: in_domain_east
+            logical :: in_domain_west
+            logical :: in_domain_south
+            logical :: in_domain_north
+            integer, optional :: output_res=1
+            logical, optional :: out_u=.false.
+            logical, optional :: out_v=.false.
+            logical, optional :: out_eta=.false.
+            logical, optional :: out_mfmax=.false.
+            logical, optional :: out_vormax=.false.
+            logical :: out_time
+            logical, optional :: out_roller=.false.
+            logical, optional :: out_undertow=.false.
+            logical, optional :: out_umean=.false.
+            logical, optional :: out_vmean=.false.
+            logical, optional :: out_etamean=.false.
+            logical, optional :: out_waveheight=.false.
+            logical, optional :: out_waveheightsig=.false.
+            logical, optional :: periodic=.false.
+            logical, optional :: obstacle=.false.
+            logical, optional :: hot_start=.false.
+            logical, optional :: sponge_on=.false.
+            logical, optional :: show_breaking=.true.
+            logical, optional :: slope_ctr=.false.
+            real(kind=sp) :: max_slope
+            real(kind=sp) :: dep_ser
+            real(kind=sp) :: widthwavemaker
+            real(kind=sp) :: r_sponge_wavemaker
+            real(kind=sp) :: a_sponge_wavemaker
+            real(kind=sp), allocatable,dimension(:,:) :: amp_ser
+            real(kind=sp), allocatable,dimension(:,:) :: phase_left
+            real(kind=sp), allocatable,dimension(:) :: per_ser
+            real(kind=sp), allocatable,dimension(:) :: phase_ser
+            real(kind=sp), allocatable,dimension(:) :: theta_ser
+            real(kind=sp), allocatable,dimension(:) :: segma_ser
+            real(kind=sp), allocatable,dimension(:) :: wave_number_ser
+            real(kind=sp) :: stokes_drift_ser
+            real(kind=sp), allocatable,dimension(:,:,:) :: cm_eta
+            real(kind=sp), allocatable,dimension(:,:,:) :: sm_eta
+            real(kind=sp), allocatable,dimension(:,:,:) :: cm_u
+            real(kind=sp), allocatable,dimension(:,:,:) :: sm_u
+            real(kind=sp), allocatable,dimension(:,:,:) :: cm_v
+            real(kind=sp), allocatable,dimension(:,:,:) :: sm_v
+            character(len=80) :: wave_data_type
+            real(kind=sp), allocatable,dimension(:,:) :: age_breaking
+            real(kind=sp), allocatable,dimension(:,:) :: roller_flux
+            real(kind=sp), allocatable,dimension(:,:) :: undertow_u
+            real(kind=sp), allocatable,dimension(:,:) :: undertow_v
+            real(kind=sp), optional :: cbrk1=0.65
+            real(kind=sp), optional :: cbrk2=0.35
+            real(kind=sp) :: t_brk
+            logical, optional :: ini_uvz=.false.
+            logical, optional :: bed_deformation=.false.
+            real(kind=sp), allocatable,dimension(:,:) :: nu_break
+            real(kind=sp), allocatable,dimension(:,:) :: nu_sponge
+            real(kind=sp) :: nu_bkg
+            logical, optional :: diffusion_sponge=.false.
+            logical, optional :: direct_sponge=.false.
+            logical, optional :: friction_sponge=.false.
+            logical, optional :: viscosity_breaking=.false.
+            real(kind=sp), allocatable,dimension(:,:) :: cd_4_sponge
+            real(kind=sp), optional :: csp=0.15
+            real(kind=sp), optional :: cdsponge=0.0
+            real(kind=sp) :: wavemaker_cbrk
+            logical, optional :: eta_limiter=.false.
+            real(kind=sp) :: crestlimit
+            real(kind=sp) :: troughlimit
+            real(kind=sp) :: etablowval
+            real(kind=sp) :: steady_time
+            real(kind=sp) :: visbrk
+            real(kind=sp) :: wavemaker_visbrk
+            logical, optional :: wavemaker_vis=.false.
+            integer, allocatable,dimension(:) :: loop_index
+            integer :: jlo
+            integer :: jhi
+            integer :: ilo
+            integer :: ihi
+            real(kind=sp), allocatable,dimension(:) :: xmk_wk
+            real(kind=sp), allocatable,dimension(:) :: ymk_wk
+            real(kind=sp) :: alpha_c
+        end module global
+    end interface 
+end python module global
+
+! This file was auto-generated with f2py (version:1.22.3).
+! See:
+! https://web.archive.org/web/20140822061353/http://cens.ioc.ee/projects/f2py2e
