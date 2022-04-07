@@ -5,7 +5,7 @@
 !      This file is part of the FUNWAVE-TVD program under the Simplified BSD license
 !
 !-------------------------------------------------------------------------------------
-! 
+!
 !    Copyright (c) 2016, FUNWAVE Development Team
 !
 !    (See http://www.udel.edu/kirby/programs/funwave/funwave.html
@@ -36,14 +36,14 @@
 !    ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 !    (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 !    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-!  
+!
 !    The views and conclusions contained in the software and documentation are those
 !    of the authors and should not be interpreted as representing official policies,
 !    either expressed or implied, of the FreeBSD Project.
-!  
+!
 !-------------------------------------------------------------------------------------
 !
-!  VESSEL is a module to model ship-wakes    
+!  VESSEL is a module to model ship-wakes
 !
 !  HISTORY :
 !    10/07/2016  Fengyan Shi
@@ -90,14 +90,14 @@ MODULE VESSEL_MODULE
 # if defined (DEEP_DRAFT_VESSEL)
     LOGICAL :: MaskMethod = .TRUE.
     LOGICAL :: FrictionMethod = .TRUE.
-    LOGICAL :: ViscosityMethod = .FALSE.    
+    LOGICAL :: ViscosityMethod = .FALSE.
     REAL(SP) :: CdDeepDraft
     REAL(SP) :: VisDeepDraft
     REAL(SP) :: Clearance
     REAL(SP),DIMENSION(:,:),ALLOCATABLE :: CdVessel_2D,VisVessel_2D
      INTEGER,DIMENSION(:,:),ALLOCATABLE :: MaskVessel
 # endif
-  
+
     LOGICAL :: MakeVesselDraft = .TRUE.
 
 
@@ -107,7 +107,7 @@ MODULE VESSEL_MODULE
 !END INTERFACE
 
 CONTAINS
-  
+
 ! READ VESSEL
 
 SUBROUTINE VESSEL_INITIAL
@@ -115,7 +115,7 @@ SUBROUTINE VESSEL_INITIAL
 # if defined (PARALLEL)
   USE GLOBAL,ONLY : iista,jjsta   !ykchoi Jan/23/2018
 # endif
-                    
+
   USE INPUT_READ
   IMPLICIT NONE
   CHARACTER(LEN=80)::FILE_NAME=' '
@@ -151,7 +151,7 @@ SUBROUTINE VESSEL_INITIAL
 
 # if defined (DEEP_DRAFT_VESSEL)
   ! ---------
-      CALL READ_LOGICAL(MaskMethod,FILE_NAME,'MaskMethod',ierr)      
+      CALL READ_LOGICAL(MaskMethod,FILE_NAME,'MaskMethod',ierr)
       IF(ierr==1)THEN
         MaskMethod = .TRUE.
 # if defined (PARALLEL)
@@ -166,8 +166,8 @@ SUBROUTINE VESSEL_INITIAL
       ENDIF
 
 ! clearance
-      CALL READ_FLOAT(CLEARANCE,FILE_NAME,'CLEARANCE',ierr) 
-      
+      CALL READ_FLOAT(CLEARANCE,FILE_NAME,'CLEARANCE',ierr)
+
       IF(ierr==1)THEN
         CLEARANCE = 1.0_SP
 # if defined (PARALLEL)
@@ -179,10 +179,10 @@ SUBROUTINE VESSEL_INITIAL
          WRITE(*,'(A40)')'You dont specify CLEARANCE, use 1.0 m'
          WRITE(3,'(A40)')'You dont specify CLEARANCE, use 1.0 m'
 # endif
-      ENDIF     
+      ENDIF
 
   ! frction ---
-      CALL READ_LOGICAL(FrictionMethod,FILE_NAME,'FrictionMethod',ierr)      
+      CALL READ_LOGICAL(FrictionMethod,FILE_NAME,'FrictionMethod',ierr)
       IF(ierr==1)THEN
         FrictionMethod = .TRUE.
 # if defined (PARALLEL)
@@ -197,8 +197,8 @@ SUBROUTINE VESSEL_INITIAL
       ENDIF
 
       IF (FrictionMethod) THEN
-      CALL READ_FLOAT(CdDeepDraft,FILE_NAME,'CdDeepDraft',ierr) 
-      
+      CALL READ_FLOAT(CdDeepDraft,FILE_NAME,'CdDeepDraft',ierr)
+
       IF(ierr==1)THEN
         CdDeepDraft = 0.1_SP
 # if defined (PARALLEL)
@@ -210,12 +210,12 @@ SUBROUTINE VESSEL_INITIAL
          WRITE(*,'(A40)')'You dont specify CdDeepDraft, use 0.1'
          WRITE(3,'(A40)')'You dont specify CdDeepDraft, use 0.1'
 # endif
-      ENDIF      
+      ENDIF
 
       ENDIF  ! end friction method
 
   ! viscosity ---
-      CALL READ_LOGICAL(ViscosityMethod,FILE_NAME,'ViscosityMethod',ierr)      
+      CALL READ_LOGICAL(ViscosityMethod,FILE_NAME,'ViscosityMethod',ierr)
       IF(ierr==1)THEN
         ViscosityMethod = .FALSE.
 # if defined (PARALLEL)
@@ -230,8 +230,8 @@ SUBROUTINE VESSEL_INITIAL
       ENDIF
 
       IF (ViscosityMethod) THEN
-      CALL READ_FLOAT(VisDeepDraft,FILE_NAME,'VisDeepDraft',ierr) 
-      
+      CALL READ_FLOAT(VisDeepDraft,FILE_NAME,'VisDeepDraft',ierr)
+
       IF(ierr==1)THEN
         VisDeepDraft = 0.1_SP
 # if defined (PARALLEL)
@@ -243,7 +243,7 @@ SUBROUTINE VESSEL_INITIAL
          WRITE(*,'(A40)')'You dont specify VisDeepDraft, use 0.1'
          WRITE(3,'(A40)')'You dont specify VisDeepDraft, use 0.1'
 # endif
-      ENDIF      
+      ENDIF
 
       ENDIF  ! end viscosity method
 
@@ -267,7 +267,7 @@ SUBROUTINE VESSEL_INITIAL
                 Gz(Mloc,Nloc))
       ALLOCATE (Uvel(NumVessel),Vvel(NumVessel))
       ALLOCATE (SourceType(NumVessel),VesselType(NumVessel))
-      
+
       Gz = ZERO
       Uvel = ZERO
       Vvel = ZERO
@@ -291,7 +291,7 @@ SUBROUTINE VESSEL_INITIAL
 # endif
        PLOT_INTV_VESSEL = SMALL
      ENDIF
-      
+
   DO Kves = 1, NumVessel
 
 !  file name
@@ -328,7 +328,7 @@ SUBROUTINE VESSEL_INITIAL
   OPEN(Ifile,FILE=TRIM(TMP_NAME))
 
 ! read file
-         READ(Ifile,'(A80)')  VesselName 
+         READ(Ifile,'(A80)')  VesselName
          READ(Ifile,*)  SourceType(Kves), VesselType(Kves)
 
          READ(Ifile,*)  ! length, width, etc
@@ -339,7 +339,7 @@ SUBROUTINE VESSEL_INITIAL
 !                for type 2 divid and volker 2017, alpha1 is cl,alpha2 is cb
 !                beta is a
 
-!   I remove the following protection, but will figure out how to avoid 
+!   I remove the following protection, but will figure out how to avoid
 !   some crazy parameters
 !          IF(VesselType(Kves)==2)THEN
 !            IF(AlphaVessel1(Kves)<16.0_SP)AlphaVessel1(Kves)=16.0_SP
@@ -477,18 +477,18 @@ SUBROUTINE VESSEL_FORCING
    ENDIF
 
    IF(SourceType(Kves)(1:2)=='SL') THEN
-   
+
      CALL SLENDER_BODY_SOURCE (Xves,Yves)
      VesselFluxGradient = VesselFluxGradient + VesselFluxGradientEach
 
    ENDIF
 
    IF(SourceType(Kves)(1:2)=='PA') THEN
-   
+
      CALL GREEN_FUNCTION_SOURCE (Xves,Yves)
      VesselFluxGradient = VesselFluxGradient + VesselFluxGradientEach
 
-   ENDIF   
+   ENDIF
 
 
 120 CONTINUE  ! no more data for vessel Kves
@@ -499,7 +499,7 @@ SUBROUTINE VESSEL_FORCING
 ! sourceX and sourceY
 
 
-!   IF(SourceType(Kves)(1:2)=='PR') THEN   
+!   IF(SourceType(Kves)(1:2)=='PR') THEN
 
 # if defined (DEEP_DRAFT_VESSEL)
     CdVessel_2D = ZERO
@@ -520,7 +520,7 @@ SUBROUTINE VESSEL_FORCING
                /DY
 # if defined (DEEP_DRAFT_VESSEL)
 ! use mask9 for SWE, in the vessel module mask9 uses 25 points rather than 9 points
-! for breakers 
+! for breakers
        IF(VesselPressureTotal(I,J).GT.ZERO) THEN
         IF(Depth(I,J)-VesselPressureTotal(I,J) < CLEARANCE) THEN
          DO II=I-Nghost,I+Nghost
@@ -548,7 +548,7 @@ SUBROUTINE VESSEL_FORCING
        MakeVesselDraft = .FALSE.
         DO J=1,Nloc
         DO I=1,Mloc
-          IF(ABS(VesselPressureTotal(I,J)).GT.SMALL)THEN      
+          IF(ABS(VesselPressureTotal(I,J)).GT.SMALL)THEN
             Eta(I,J) = - VesselPressureTotal(I,J)
             ETA0(I,J) = ETA(I,J)
           ENDIF
@@ -567,7 +567,7 @@ SUBROUTINE PRESSURE_SOURCE (Xves,Yves)
   REAL(SP) :: Xves,Yves,Lves,Wves
 #if defined (PARALLEL)
     REAL(SP) :: myvar
-# endif  
+# endif
 
 ! rectangular
     VesselPressureEach = ZERO
@@ -595,7 +595,7 @@ SUBROUTINE PRESSURE_SOURCE (Xves,Yves)
 
       IF(Lves>0.5_SP*LengthVessel(Kves)*AlphaVessel1(Kves).AND. &
          Lves<0.5_SP*LengthVessel(Kves))THEN
-          
+
           P_x = COS(PI*(Lves-0.5_SP*AlphaVessel1(Kves)*LengthVessel(Kves))  &
                    /((1.0_SP-AlphaVessel1(Kves))*LengthVessel(Kves)))**2
       ELSEIF(Lves<-0.5_SP*LengthVessel(Kves)*AlphaVessel2(Kves).AND. &
@@ -626,16 +626,16 @@ SUBROUTINE PRESSURE_SOURCE (Xves,Yves)
               (1.0_SP - AlphaVessel2(Kves)*(Wves/WidthVessel(Kves))**2)* &
               EXP(-BetaVessel(Kves)*(Wves/WidthVessel(Kves))**2)
 
-     ENDIF ! end type 2     
+     ENDIF ! end type 2
 
     ENDIF  ! end inside ship rectangule
-     
+
     ENDDO
     ENDDO  ! end grid
 
 ! calculate resistance. In the initial code, the resistance was calculated
-! inside the last loop. It turns out that resistance was re-counted 
-! because of including ghost cells (thanks to Jeff Harris)    
+! inside the last loop. It turns out that resistance was re-counted
+! because of including ghost cells (thanks to Jeff Harris)
 
     DO J=Jbeg,Jend
     DO I=Ibeg,Iend
@@ -650,7 +650,7 @@ SUBROUTINE PRESSURE_SOURCE (Xves,Yves)
          ELSE
            ResNegX(Kves) = ResNegX(Kves) &
                   +VesselPressureEach(I,J)*RHO_WATER*GRAV  &
-                  *DetaX*DY           
+                  *DetaX*DY
          ENDIF
 
          IF(DetaY>=0)THEN
@@ -660,12 +660,12 @@ SUBROUTINE PRESSURE_SOURCE (Xves,Yves)
          ELSE
            ResNegY(Kves) = ResNegY(Kves) &
                   +VesselPressureEach(I,J)*RHO_WATER*GRAV  &
-                  *DetaY*DX          
+                  *DetaY*DX
          ENDIF
 
          ResistanceX(Kves) = ResPosX(Kves) + ResNegX(Kves)
          ResistanceY(Kves) = ResPosY(Kves) + ResNegY(Kves)
-      
+
     ENDDO
     ENDDO
 
@@ -707,17 +707,17 @@ SUBROUTINE GREEN_FUNCTION_SOURCE (Xves,Yves)
 
   m_trunc = 5
   Gz = ZERO
-     
+
   DO J=Jbeg,Jend
-  DO I=Ibeg,Iend 
+  DO I=Ibeg,Iend
 
       Lves=(Xco(I)-Xves)*COS(ThetaVessel(Kves)) + (Yco(J)-Yves)*SIN(ThetaVessel(Kves))
       Wves=-(Xco(I)-Xves)*SIN(ThetaVessel(Kves)) + (Yco(J)-Yves)*COS(ThetaVessel(Kves))
 
 !     the 3D nearfield is solved inside -L to L and -W to W
 !     note that this length doubles the vessel length
-!     the far field is outside this rectangule 
-      
+!     the far field is outside this rectangule
+
       IF(ABS(Lves)>=LengthVessel(Kves).AND. &
          ABS(Wves)>=WidthVessel(Kves)) THEN
 
@@ -744,14 +744,14 @@ SUBROUTINE GREEN_FUNCTION_SOURCE (Xves,Yves)
 
          VesselFluxGradientEach(I,J) = -1.0_SP /2.0_SP /PI *( (Uvel(Kves)-U(I,J))/DX &
                                (Uvel(Kves)-U(I,J))/DY -W_farfield/Depth(I,J) )
-                               
+
      ENDIF  ! end inside vessel body
 
   ENDDO
   ENDDO
 
 # else
-  
+
 
 ! assume single value of submerged vessel body
 ! we only record Gz at z_prime
@@ -761,12 +761,12 @@ SUBROUTINE GREEN_FUNCTION_SOURCE (Xves,Yves)
       Lves=(Xco(I)-Xves)*COS(ThetaVessel(Kves)) + (Yco(J)-Yves)*SIN(ThetaVessel(Kves))
       Wves=-(Xco(I)-Xves)*SIN(ThetaVessel(Kves)) + (Yco(J)-Yves)*COS(ThetaVessel(Kves))
 
-      
+
       IF(ABS(Lves)<=0.5_SP*LengthVessel(Kves).AND. &
          ABS(Wves)<=0.5_SP*WidthVessel(Kves)) THEN
          VesselFluxGradientEach(I,J) = Pvessel(Kves)  &
                   *SIN(2.0*PI*Lves/(LengthVessel(Kves))) &
-                  *COS(PI*Wves/(WidthVessel(Kves)))**2   
+                  *COS(PI*Wves/(WidthVessel(Kves)))**2
 !   print*,i,j,VesselFluxGradientEach(I,J), SIN(2.0*PI*Lves/(LengthVessel(Kves))), &
 !          COS(PI*Wves/(WidthVessel(Kves)))**2
       ENDIF
@@ -791,24 +791,24 @@ SUBROUTINE SLENDER_BODY_SOURCE (Xves,Yves)
   VesselFluxGradientEach = ZERO
 
 ! initial parabolic function by Tanimoto et al. 2000
-  
+
     DO J=1,Nloc
     DO I=1,Mloc
       Lves=(Xco(I)-Xves)*COS(ThetaVessel(Kves)) + (Yco(J)-Yves)*SIN(ThetaVessel(Kves))
       Wves=-(Xco(I)-Xves)*SIN(ThetaVessel(Kves)) + (Yco(J)-Yves)*COS(ThetaVessel(Kves))
 
-      
+
       IF(ABS(Lves)<=0.5_SP*LengthVessel(Kves).AND. &
          ABS(Wves)<=0.5_SP*WidthVessel(Kves)) THEN
 
         IF(VesselType(kves)==1)THEN
          VesselFluxGradientEach(I,J) = Pvessel(Kves)  &
                   *SIN(2.0*PI*Lves/(LengthVessel(Kves))) &
-                  *COS(PI*Wves/(WidthVessel(Kves)))**2   
+                  *COS(PI*Wves/(WidthVessel(Kves)))**2
         ENDIF  ! type 1
 
         IF(VesselType(kves)==2)THEN
-         
+
          x_right_1=0.5_SP*LengthVessel(Kves)*AlphaVessel1(Kves)
          x_right_2=0.5_SP*LengthVessel(Kves)
          x_left_1=-0.5_SP*LengthVessel(Kves)*AlphaVessel2(Kves)
@@ -816,16 +816,16 @@ SUBROUTINE SLENDER_BODY_SOURCE (Xves,Yves)
 
          IF(Lves>x_right_1.AND. &
             Lves<x_right_2)THEN
-          
+
           VesselFluxGradientEach(I,J) = Pvessel(Kves)  &
                   *SIN(PI*(Lves-x_right_1)/(x_right_2-x_right_1)) &
-                  *COS(PI*Wves/(WidthVessel(Kves)))**2 
+                  *COS(PI*Wves/(WidthVessel(Kves)))**2
 
          ELSEIF(Lves<x_left_1.AND. &
             Lves>x_left_2)THEN
           VesselFluxGradientEach(I,J) = Pvessel(Kves)  &
                   *SIN(PI*(Lves-x_left_1)/(x_left_1-x_left_2)) &
-                  *COS(PI*Wves/(WidthVessel(Kves)))**2 
+                  *COS(PI*Wves/(WidthVessel(Kves)))**2
 
          ELSEIF(Lves<=x_right_1.AND. &
             Lves>=x_left_1)THEN
@@ -851,5 +851,5 @@ END SUBROUTINE SLENDER_BODY_SOURCE
 
 END MODULE VESSEL_MODULE
 
-# endif 
+# endif
 ! end vessel

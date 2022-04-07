@@ -2,7 +2,7 @@ import time
 import multiprocessing
 import numpy as np
 ## - todo: establish classes for these for the corresponding .F ...
-import vessel
+import shipwake
 #import sediment
 #import meteo
 #import tracer
@@ -40,6 +40,10 @@ class FunwaveModel():
 
         ## grid and computation time
         # --- TODO --- #
+        self.mglob = None
+        self.nglob = None
+        self.dx = None
+        self.dy = None
 
         ## physics
         # --- TODO --- #
@@ -87,9 +91,8 @@ class FunwaveModel():
         # --------------- #
         # modules & flags
         # ------------------------------------------------------- #
-        ## vessel module
+        ## shipwake module
         self.use_vessel = False
-        self.vessel_arr = np.array([], dtype = object)
                 # -- TODO -- #
 
         ## sediment module

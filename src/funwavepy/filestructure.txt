@@ -2,7 +2,13 @@ funwavepy/                          Top Level
   __init__.py                       Initialize funwavepy
   funwavetvd/                       Subpackage for model
     __init__.py
+    fotranfiles/
+      ...
+    model.py
+    shipwake.py
   postprocessing/                   Subpackage for post-processing
     __init__.py
     makemov.py                        - Module for making movies
     analysis.py                       - Module for analyzing numpy array data
+  test/
+    shipwake_test.py
