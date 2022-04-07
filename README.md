@@ -1,6 +1,6 @@
 # funwavepy
 ### FUNWAVE-TVD Python wrapper with post-processing capabilites
-Fortran libraries built from [FUNWAVE-TVD](https://github.com/fengyanshi/FUNWAVE-TVD).
+Fortran libraries referenced and built from [FUNWAVE-TVD](https://github.com/fengyanshi/FUNWAVE-TVD).
 
 Todo:
 - Process FUNWAVE-TVD .F files through F2PY for module use
