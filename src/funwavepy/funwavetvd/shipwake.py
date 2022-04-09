@@ -23,7 +23,7 @@ class Vessel():
                 alpha1, alpha2, beta, pm, pdf):
         """
         Constructor for Vessel object
-            Instance Variables & Parameters
+            Instance Parameters
                 int type     : type of Vessel, below are globally defined constants
                     1 == PRESSURE1
                     2 == PRESSURE2
@@ -39,6 +39,10 @@ class Vessel():
                 DataFrame pdf : vessel path dataframe
                     - Structure of pdf:
                 |  time  |   x(m)   |   y(m)   |
+
+            Other Instance Variables
+            float t1_vessel : vessel time1
+            float t2_vessel : vessel time2
 
         """
         if type < 0 or type > 4:
@@ -97,9 +101,41 @@ class Shipwake:
 
     def __init__(self):
         self.vessel_arr = np.array([], dtype = object)
+        deep_draft_vessel_flag = False
 
-    def append_vessel(vessel):
+        ## fast(er) memory allocation
+        # by how much? i dont know lol
+        self.x0_vessel = np.array([], dtype = float)
+        self.y0_vessel = np.array([], dtype = float)
+        self.x1_vessel = np.array([], dtype = float)
+        self.y1_vessel = np.array([], dtype = float)
+        self.a1_vessel = np.array([], dtype = float)
+        self.a2_vessel = np.array([], dtype = float)
+        self.b_vessel = np.arrray([], dtype = float)
+        self.p_vessel = np.array([], dtype = float)
+        self.l_vessel = np.array([], dtype = float)
+        self.w_vessel = np.array([], dtype = float)
+        self.t0_vessel = np.array([], dtype = float)
+        self.t1_vessel = np.array([], dtype = float)
+        self.theta_vessel = np.array([], dtype = float)
+
+    def append_vessel(self, vessel):
         self.vessel_arr = np.append(self.vessel_arr, [vessel])
 
-    def append_vessel_arr(arr):
+    def append_vessel_arr(self, arr):
         self.vessel_arr = np.append(self.vessel_arr, arr)
+
+    def clear_shipwake(self):
+        self.vessel_arr = np.array([], dtype = object)
+
+    def reset_shipwake(self):
+
+
+    def vessel_forcing(self, mloc, nloc, time, dt, depth):
+        # allocating local variables
+        flux_gradient = model.ZERO
+        pressure_total = model.ZERO
+
+        # iterate through vessels
+        for vessel in np.nditer(self.vessel_arr, flags = ['refs_ok']):
+            # --- TO DO --- #

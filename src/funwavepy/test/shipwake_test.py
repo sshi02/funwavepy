@@ -12,3 +12,10 @@ test_vessel = Vessel(PRESSURE1, 220.0, 10.0, 0.9, 0.9, 0.5, 3.0, test_pdf)
 print("begin output:")
 print(test_vessel)
 print("end output")
+
+###
+print("Shipwake Instance Test")
+###
+test_shipwake = Shipwake()
+test_shipwake.append_vessel(test_vessel)
+test_shipwake.vessel_forcing(None, None, None, None, None)
